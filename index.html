@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedro</title>
+    <style>
+        .wrapper {
+            overflow: hidden;
+            border-radius: 50%;
+            width: 630px;
+            height: 630px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .pedro {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        @keyframes bounce {
+            to { transform: translateY(20px); }
+        }
+        @keyframes spin {
+            to { transform: rotate(-1turn); }
+        }
+        .spin {
+            animation: spin 10s linear infinite;
+        }
+        .bounce {
+            animation: bounce 200ms linear infinite alternate;
+        }
+        #playButton {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(145deg, #6e7dff, #5a6bff);
+            border: none;
+            border-radius: 12px;
+            box-shadow: 5px 5px 10px #4e59d6,
+                        -5px -5px 10px #7c8dff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #playButton:hover {
+            background: linear-gradient(145deg, #5a6bff, #6e7dff);
+            box-shadow: 2px 2px 5px #4e59d6,
+                        -2px -2px 5px #7c8dff;
+        }
+        #playButton:active {
+            box-shadow: inset 2px 2px 5px #4e59d6,
+                        inset -2px -2px 5px #7c8dff;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <img src="https://us-tuna-sounds-images.voicemod.net/8224fd64-da95-4820-8845-8f47be583bf4-1704425769367.png" class="pedro">
+    </div>
+    <button id="playButton">Play</button>
+    <audio id="music" src="pedro.mp3"></audio>
+
+    <script>
+        document.getElementById('playButton').addEventListener('click', function() {
+            var audio = document.getElementById('music');
+            var startTime = 4.4; // Set the specific start time in seconds
+            var endTime = 30; // Set the specific end time in seconds
+
+            audio.currentTime = startTime; // Set the start time
+
+            audio.play();
+            document.querySelector('.wrapper').classList.add('spin');
+            document.querySelector('.pedro').classList.add('bounce');
+
+            // Check the current time periodically
+            var checkTime = setInterval(function() {
+                if (audio.currentTime >= endTime) {
+                    audio.pause(); // Pause the audio at the end time
+                    audio.currentTime = startTime; // Reset to the start time if needed
+                    document.querySelector('.wrapper').classList.remove('spin');
+                    document.querySelector('.pedro').classList.remove('bounce');
+                    clearInterval(checkTime); // Clear the interval
+                }
+            }, 100); // Check every 100 milliseconds
+        });
+    </script>    
+</body>
+</html>
